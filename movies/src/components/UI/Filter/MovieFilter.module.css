@@ -1,0 +1,15 @@
+﻿.search {
+    position: fixed;
+    top: 50px;
+    left: 0;
+    display: block;
+    width: 24vw;
+}
+
+.input {
+    width: 24vw;
+}
+
+.heading{
+    text-align: center;
+}

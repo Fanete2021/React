@@ -1,0 +1,16 @@
+﻿.actor {
+    display: flex;
+    padding: 15px;
+    border: 2px solid teal;
+    margin-top: 15px;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.actor__content {
+    width: 35vw;
+    min-height: 30px;
+    max-height: 400px;
+    word-wrap: break-word;
+    margin-bottom: 5px;
+}

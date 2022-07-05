@@ -1,0 +1,15 @@
+﻿.form {
+    display: none;
+}   
+
+.form.active {
+    display: block;
+    text-align: center;
+    height: 100px;
+    overflow-y: auto;
+}
+
+.item {
+    height: 25%;
+    cursor: pointer;
+}
