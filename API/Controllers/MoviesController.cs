@@ -24,8 +24,11 @@ namespace API.Controllers
         public async Task<ActionResult<Movie>> GetMovie(int id)
         {
             var response = await _movieService.GetMovieAsync(id);
+            
+            if(response.StatusCode == Domain.Enum.StatusCode.OK)
+                return this.Ok(response.Data);
 
-            return this.Ok(response.Data);
+            return this.NotFound(response.DescriptionError);
         }
 
         [HttpGet("last")]
@@ -33,7 +36,10 @@ namespace API.Controllers
         {
             var response = await _movieService.GetLastMovieAsync();
 
-            return this.Ok(response.Data);
+            if (response.StatusCode == Domain.Enum.StatusCode.OK)
+                return this.Ok(response.Data);
+
+            return this.NotFound(response.DescriptionError);
         }
 
         [HttpGet]
@@ -45,9 +51,14 @@ namespace API.Controllers
 
             var response = await _movieService.GetMoviesAsync(idActors, idGenres, title);
 
-            Response.Headers["x-total-count"] = response.Data.Count().ToString();
+            if (response.StatusCode == Domain.Enum.StatusCode.OK)
+            {
+                Response.Headers["x-total-count"] = response.Data.Count().ToString();
 
-            return this.Ok(response.Data.Skip(limit * (page - 1)).Take(limit));
+                return this.Ok(response.Data.Skip(limit * (page - 1)).Take(limit));
+            }
+
+            return this.NotFound(response.DescriptionError);
         }
 
         [HttpGet("{id}/actors")]
@@ -55,7 +66,10 @@ namespace API.Controllers
         {
             var response = await _movieService.GetMovieActorsAsync(id);
 
-            return this.Ok(response.Data);
+            if (response.StatusCode == Domain.Enum.StatusCode.OK)
+                return this.Ok(response.Data);
+
+            return this.NotFound(response.DescriptionError);
         }
 
         [HttpGet("{id}/genres")]
@@ -63,7 +77,10 @@ namespace API.Controllers
         {
             var response = await _movieService.GetMovieGenresAsync(id);
 
-            return this.Ok(response.Data);
+            if(response.StatusCode == Domain.Enum.StatusCode.OK)
+                return this.Ok(response.Data);
+
+            return this.NotFound(response.DescriptionError);
         }
 
 
@@ -71,33 +88,45 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<Movie>> CreateMovie(MovieViewModel model)
         {
-            await _movieService.CreateMovieAsync(model);
+            var response = await _movieService.CreateMovieAsync(model);
 
-            return this.Ok(model);
+            if (response.StatusCode == Domain.Enum.StatusCode.OK)
+                return this.Ok(response.Data);
+
+            return this.BadRequest(response.DescriptionError);
         }
 
         [HttpPost("genres")]
         public async Task<ActionResult<Movie>> AddGenre(Movie_GenreViewModel model)
         {
-            await _movieService.AddGenreAsync(model);
+            var response = await _movieService.AddGenreAsync(model);
 
-            return this.Ok(model);
+            if (response.StatusCode == Domain.Enum.StatusCode.OK)
+                return this.Ok(response.Data);
+
+            return this.BadRequest(response.DescriptionError);
         }
 
         [HttpPost("actors")]
         public async Task<ActionResult<Movie>> AddActor(Movie_ActorViewModel model)
         {
-            await _movieService.AddActorAsync(model);
+            var response = await _movieService.AddActorAsync(model);
 
-            return this.Ok(model);
+            if (response.StatusCode == Domain.Enum.StatusCode.OK)
+                return this.Ok(response.Data);
+
+            return this.BadRequest(response.DescriptionError);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<Movie>> DeleteMovie(int id)
         {
-            await _movieService.DeleteMovieAsync(id);
+            var response = await _movieService.DeleteMovieAsync(id);
 
-            return this.Ok();
+            if (response.StatusCode == Domain.Enum.StatusCode.OK)
+                return this.Ok(response.Data);
+
+            return this.BadRequest(response.DescriptionError);
         }
     }
 }

@@ -76,21 +76,27 @@ function Movies() {
                 contains(newMovie.actors.map(a => a.id), filter.actors.map(a => a.id)) &&
                 newMovie.title.toLowerCase().includes(filter.title.toLowerCase()))
                 setMovies([...movies, newMovie])
+        } else if (pageMovies == totalPagesMovies) {
+            setTotalPagesMovies(totalPagesMovies + 1)
         }
     }
 
     const removeMovie = async (movie) => {
         await MovieService.deleteMovie(movie.id)
-        fetchMovies(limitMovies, pageMovies)
-        if (pageMovies > totalPagesMovies) {
+        let offset = 0
+
+        if (pageMovies == totalPagesMovies && movies.length == 1) {
+            offset = 1
             setPageMovies(pageMovies - 1)
-            fetchMovies(limitMovies, pageMovies - 1)
         }
+
+        fetchMovies(limitMovies, pageMovies - offset)
     }
         
     const changePage = (newValue) => {
         resetView()
         setMovies([])
+        
         if (newValue > 0 && newValue <= totalPagesMovies) {
             setPageMovies(newValue)
             fetchMovies(limitMovies, newValue)

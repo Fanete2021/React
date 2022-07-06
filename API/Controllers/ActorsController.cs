@@ -12,7 +12,6 @@ namespace API.Controllers
     public class ActorsController : ControllerBase
     {
         private readonly IActorService _actorsService;
-        private int count = 0;
 
         public ActorsController(IActorService actorsService)
         {
@@ -25,38 +24,51 @@ namespace API.Controllers
             if (substr == null)
                 substr = "";
 
-            if (count == 0)
-                count = _actorsService.GetCountActorsAsync().Result.Data;
+            var count = await _actorsService.GetCountActorsAsync();
+            
+            var response = await _actorsService.GetActorAsync(substr, limit, page, bannedId);
 
-            Response.Headers["x-total-count"] = count.ToString();
+            if (response.StatusCode == Domain.Enum.StatusCode.OK)
+            {
+                Response.Headers["x-total-count"] = count.Data.ToString();
 
-            var responce = await _actorsService.GetActorAsync(substr, limit, page, bannedId);
+                return this.Ok(response.Data);
+            }
 
-            return this.Ok(responce.Data);
+            return this.NotFound(response.DescriptionError);
         }
 
         [HttpGet("last")]
         public async Task<ActionResult<Actor>> GetLastActor()
         {
-            var responce = await _actorsService.GetLastActorAsync();
+            var response = await _actorsService.GetLastActorAsync();
 
-            return this.Ok(responce.Data);
+            if (response.StatusCode == Domain.Enum.StatusCode.OK)
+                return this.Ok(response.Data);
+
+            return this.NotFound(response.DescriptionError);
         }
 
         [HttpPost]
         public async Task<ActionResult<Actor>> CreateActor(ActorViewModel model)
         {
-            await _actorsService.CreateActorAsync(model);
+            var response = await _actorsService.CreateActorAsync(model);
 
-            return this.Ok(model);
+            if (response.StatusCode == Domain.Enum.StatusCode.OK)
+                return this.Ok(response.Data);
+
+            return this.BadRequest(response.DescriptionError);
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<Actor>> DeleteActor(int id)
         {
-            await _actorsService.DeleteActorAsync(id);
+            var response = await _actorsService.DeleteActorAsync(id);
 
-            return this.Ok();
+            if (response.StatusCode == Domain.Enum.StatusCode.OK)
+                return this.Ok(response.Data);
+
+            return this.BadRequest(response.DescriptionError);
         }
     }
 }

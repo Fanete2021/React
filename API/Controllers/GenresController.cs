@@ -23,17 +23,23 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<Movie>> GetGenres()
         {
-            var responce = await _genreService.GetGenresAsync();
+            var response = await _genreService.GetGenresAsync();
 
-            return this.Ok(responce.Data.ToList());
+            if(response.StatusCode == Domain.Enum.StatusCode.OK)
+                return this.Ok(response.Data);
+
+            return this.NotFound(response.DescriptionError);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Movie>> GetMovie(int id)
         {
-            var responce = await _genreService.GetGenreAsync(id);
+            var response = await _genreService.GetGenreAsync(id);
 
-            return this.Ok(responce.Data);
+            if (response.StatusCode == Domain.Enum.StatusCode.OK)
+                return this.Ok(response.Data);
+
+            return this.NotFound(response.DescriptionError);
         }
     }
 }

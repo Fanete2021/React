@@ -36,19 +36,26 @@ function Actors() {
             ...newActor, id: await ActorService.getLast()
         }
 
-        if (actors.length < 10)
+        if (actors.length < 10) {
             setActors([...actors, newActor])
+        }
+        else if (pageActors == totalPagesActors) {
+            setTotalPagesActors(totalPagesActors + 1)
+        }
+
         setVisibleCreature(false);
     }
 
     const removeActor = async (actor) => {
         await ActorService.deleteActor(actor.id)
-        fetchActors(limitActors, pageActors)
-
-        if (pageActors > totalPagesActors) {
+        let offset = 0
+        
+        if (pageActors == totalPagesActors && actors.length == 1) {
+            offset = 1
             setPageActors(pageActors - 1)
-            fetchActors(limitActors, pageActors - 1)
         }
+
+        fetchActors(limitActors, pageActors - offset)
     }
 
     const changePage = (newValue) => {
