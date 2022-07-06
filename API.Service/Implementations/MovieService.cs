@@ -135,16 +135,16 @@ namespace API.Service.Implementations
             }
         }
 
-        public async Task<BaseResponce<Movie_GenreViewModel>> AddGenreAsync(Movie_GenreViewModel model)
+        public async Task<BaseResponce<MovieGenre>> AddGenreAsync(MovieGenre model)
         {
-            var baseResponse = new BaseResponce<Movie_GenreViewModel>();
+            var baseResponse = new BaseResponce<MovieGenre>();
 
             try
             {
-                var movie = new Movie_Genre
+                var movie = new MovieGenre
                 {
-                    Movie_id = model.Movie_id,
-                    Genre_id = model.Genre_id
+                    MovieId = model.MovieId,
+                    GenreId = model.GenreId
                 };
 
                 await movieRepository.AddGenreAsync(movie);
@@ -156,23 +156,23 @@ namespace API.Service.Implementations
             }
             catch (Exception ex)
             {
-                return new BaseResponce<Movie_GenreViewModel>()
+                return new BaseResponce<MovieGenre>()
                 {
                     DescriptionError = $"[AddGenreAsync]: {ex.Message}",
                     StatusCode = Domain.Enum.StatusCode.DataWithErrors
                 };
             }
         }
-        public async Task<BaseResponce<Movie_ActorViewModel>> AddActorAsync(Movie_ActorViewModel model)
+        public async Task<BaseResponce<MovieActor>> AddActorAsync(MovieActor model)
         {
-            var baseResponse = new BaseResponce<Movie_ActorViewModel>();
+            var baseResponse = new BaseResponce<MovieActor>();
 
             try
             {
-                var movie = new Movie_Actor
+                var movie = new MovieActor
                 {
-                    Movie_id = model.Movie_id,
-                    Actor_id = model.Actor_id
+                    MovieId = model.MovieId,
+                    ActorId = model.ActorId
                 };
 
                 await movieRepository.AddActorAsync(movie);
@@ -184,7 +184,7 @@ namespace API.Service.Implementations
             }
             catch (Exception ex)
             {
-                return new BaseResponce<Movie_ActorViewModel>()
+                return new BaseResponce<MovieActor>()
                 {
                     DescriptionError = $"[AddActorAsync]: {ex.Message}",
                     StatusCode = Domain.Enum.StatusCode.DataWithErrors

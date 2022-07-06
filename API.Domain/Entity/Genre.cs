@@ -12,5 +12,7 @@ namespace API.Domain.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Title { get; set; }
+
+        public List<MovieGenre> MovieGenre { get; set; } = new List<MovieGenre>();
     }
 }

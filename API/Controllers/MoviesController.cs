@@ -97,7 +97,7 @@ namespace API.Controllers
         }
 
         [HttpPost("genres")]
-        public async Task<ActionResult<Movie>> AddGenre(Movie_GenreViewModel model)
+        public async Task<ActionResult<MovieGenre>> AddGenre(MovieGenre model)
         {
             var response = await _movieService.AddGenreAsync(model);
 
@@ -108,7 +108,7 @@ namespace API.Controllers
         }
 
         [HttpPost("actors")]
-        public async Task<ActionResult<Movie>> AddActor(Movie_ActorViewModel model)
+        public async Task<ActionResult<MovieActor>> AddActor(MovieActor model)
         {
             var response = await _movieService.AddActorAsync(model);
 

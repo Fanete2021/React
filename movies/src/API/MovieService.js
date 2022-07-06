@@ -41,8 +41,8 @@ export default class MovieService {
     static async addGenre(idMovie, genre) {
         await axios.post(server + 'movies/genres',
             {
-                movie_id: idMovie,
-                genre_id: genre
+                movieId: idMovie,
+                genreId: genre
             }
         )
     }
@@ -50,8 +50,8 @@ export default class MovieService {
     static async addActor(idMovie, actor) {
         await axios.post(server + 'movies/actors',
             {
-                movie_id: idMovie,
-                actor_id: actor
+                movieId: idMovie,
+                actorId: actor
             }
         )
     }

@@ -13,6 +13,9 @@ namespace API.Domain.Entity
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public int PremiereYear { get; set; } 
+        public int PremiereYear { get; set; }
+
+        public List<MovieActor> MovieActor { get; set; } = new List<MovieActor>();
+        public List<MovieGenre> MovieGenre { get; set; } = new List<MovieGenre>();
     }
 }

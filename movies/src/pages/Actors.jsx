@@ -39,7 +39,7 @@ function Actors() {
         if (actors.length < 10) {
             setActors([...actors, newActor])
         }
-        else if (pageActors == totalPagesActors) {
+        else if (pageActors === totalPagesActors) {
             setTotalPagesActors(totalPagesActors + 1)
         }
 
@@ -50,7 +50,7 @@ function Actors() {
         await ActorService.deleteActor(actor.id)
         let offset = 0
         
-        if (pageActors == totalPagesActors && actors.length == 1) {
+        if (pageActors !== 1 && actors.length === 1) {
             offset = 1
             setPageActors(pageActors - 1)
         }

@@ -76,7 +76,7 @@ function Movies() {
                 contains(newMovie.actors.map(a => a.id), filter.actors.map(a => a.id)) &&
                 newMovie.title.toLowerCase().includes(filter.title.toLowerCase()))
                 setMovies([...movies, newMovie])
-        } else if (pageMovies == totalPagesMovies) {
+        } else if (pageMovies === totalPagesMovies) {
             setTotalPagesMovies(totalPagesMovies + 1)
         }
     }
@@ -85,7 +85,7 @@ function Movies() {
         await MovieService.deleteMovie(movie.id)
         let offset = 0
 
-        if (pageMovies == totalPagesMovies && movies.length == 1) {
+        if (pageMovies !== 1 && movies.length === 1) {
             offset = 1
             setPageMovies(pageMovies - 1)
         }

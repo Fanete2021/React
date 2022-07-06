@@ -28,17 +28,17 @@ namespace API.DAL.Repositories
             return true;
         }
 
-        public async Task<bool> AddGenreAsync(Movie_Genre entity)
+        public async Task<bool> AddGenreAsync(MovieGenre entity)
         {
-            await db.MoviesAndGenres.AddAsync(entity);
+            await db.MovieGenre.AddAsync(entity);
             await db.SaveChangesAsync();
 
             return true;
         }
 
-        public async Task<bool> AddActorAsync(Movie_Actor entity)
+        public async Task<bool> AddActorAsync(MovieActor entity)
         {
-            await db.MoviesAndActors.AddAsync(entity);
+            await db.MovieActor.AddAsync(entity);
             await db.SaveChangesAsync();
 
             return true;
@@ -48,9 +48,6 @@ namespace API.DAL.Repositories
         {
             db.Movies.Remove(entity);
             await db.SaveChangesAsync();
-
-            await DeleteActorsAsync(entity.Id);
-            await DeleteGenresAsync(entity.Id);
 
             return true;
         }
@@ -138,34 +135,16 @@ namespace API.DAL.Repositories
 
         public async Task<List<Actor>> GetActorsAsync(int id)
         {
-            var movieAndActors = await db.MoviesAndActors.Where(x => x.Movie_id == id).Select(x => x.Actor_id).ToListAsync();
+            var movieAndActors = await db.MovieActor.Where(x => x.MovieId == id).Select(x => x.ActorId).ToListAsync();
             var actors = await actorRepository.SelectAsync();
             return actors.Where(x => movieAndActors.Contains(x.Id)).ToList();
         }
 
         public async Task<List<Genre>> GetGenresAsync(int id)
         {
-            var movieAndGenres = await db.MoviesAndGenres.Where(x => x.Movie_id == id).Select(x => x.Genre_id).ToListAsync();
+            var movieAndGenres = await db.MovieGenre.Where(x => x.MovieId == id).Select(x => x.GenreId).ToListAsync();
             var genres = await genreRepository.SelectAsync();
             return genres.Where(x => movieAndGenres.Contains(x.Id)).ToList();
-        }
-
-        public async Task<bool> DeleteActorsAsync(int movieId)
-        {
-            var movieAndActors = await db.MoviesAndActors.Where(x => x.Movie_id == movieId).ToListAsync();
-            db.MoviesAndActors.RemoveRange(movieAndActors);
-            await db.SaveChangesAsync();
-
-            return true;
-        }
-
-        public async Task<bool> DeleteGenresAsync(int movieId)
-        {
-            var movieAndGenres = await db.MoviesAndGenres.Where(x => x.Movie_id == movieId).ToListAsync();
-            db.MoviesAndGenres.RemoveRange(movieAndGenres);
-            await db.SaveChangesAsync();
-
-            return true;
         }
     }
 }
