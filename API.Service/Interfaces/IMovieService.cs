@@ -8,7 +8,7 @@ namespace API.Service.Interfaces
 {
     public interface IMovieService
     {
-        Task<BaseResponce<IEnumerable<Movie>>> GetMoviesAsync(int[] idActors, int[] idGenres, string title);
+        Task<BaseResponce<IEnumerable<Movie>>> GetMoviesAsync(int[] idActors, int[] idGenres, string title, int limit, int page);
         Task<BaseResponce<Movie>> GetMovieAsync(int id);
         Task<BaseResponce<MovieViewModel>> CreateMovieAsync(MovieViewModel model);
         Task<BaseResponce<MovieGenre>> AddGenreAsync(MovieGenre model);

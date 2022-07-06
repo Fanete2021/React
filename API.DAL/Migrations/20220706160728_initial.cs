@@ -105,7 +105,7 @@ namespace API.DAL.Migrations
                     { 2, "Comedy" },
                     { 3, "Musical" },
                     { 4, "Romance" },
-                    { 5, "Comedy" },
+                    { 5, "Adventure" },
                     { 6, "Crime" },
                     { 7, "Action" },
                     { 8, "Thriller" },

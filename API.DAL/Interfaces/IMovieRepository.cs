@@ -10,6 +10,6 @@ namespace API.DAL.Interfaces
         public Task<List<Genre>> GetGenresAsync(int id);
         public Task<bool> AddGenreAsync(MovieGenre entity);
         public Task<bool> AddActorAsync(MovieActor entity);
-        public Task<List<Movie>> SelectAsync(int[] idActors, int[] idGenres, string title);
+        public Task<List<Movie>> SelectAsync(int[] idActors, int[] idGenres, string title, int limit, int page);
     }
 }

@@ -50,13 +50,14 @@ function Movies() {
     }
 
     useEffect(() => {
+        console.log("1")
         fetchMovies(limitMovies, pageMovies)
     }, [])
 
     useEffect(() => {
         resetView()
         fetchMovies(limitMovies, pageMovies)
-    }, [debouncedFilter])
+    }, [debouncedFilter, pageMovies])
 
     useEffect(() => {
         changePage(1)
@@ -95,11 +96,9 @@ function Movies() {
         
     const changePage = (newValue) => {
         resetView()
-        setMovies([])
         
         if (newValue > 0 && newValue <= totalPagesMovies) {
             setPageMovies(newValue)
-            fetchMovies(limitMovies, newValue)
         }
     }
 

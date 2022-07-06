@@ -18,12 +18,12 @@ namespace API.Service.Implementations
             this.movieRepository = movieRepository;
         }
 
-        public async Task<BaseResponce<IEnumerable<Movie>>> GetMoviesAsync(int[] idActors, int[] idGenres, string title)
+        public async Task<BaseResponce<IEnumerable<Movie>>> GetMoviesAsync(int[] idActors, int[] idGenres, string title, int limit, int page)
         {
             var baseResponse = new BaseResponce<IEnumerable<Movie>>();
             try
             {
-                var movies = await movieRepository.SelectAsync(idActors, idGenres, title);
+                var movies = await movieRepository.SelectAsync(idActors, idGenres, title, limit, page);
 
                 if (movies.Count == 0)
                 {

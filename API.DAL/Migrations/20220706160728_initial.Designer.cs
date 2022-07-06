@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.DAL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220706112352_initial")]
+    [Migration("20220706160728_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,7 +76,7 @@ namespace API.DAL.Migrations
                         new
                         {
                             Id = 5,
-                            Title = "Comedy"
+                            Title = "Adventure"
                         },
                         new
                         {

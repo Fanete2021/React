@@ -74,7 +74,7 @@ namespace API.DAL.Migrations
                         new
                         {
                             Id = 5,
-                            Title = "Comedy"
+                            Title = "Adventure"
                         },
                         new
                         {

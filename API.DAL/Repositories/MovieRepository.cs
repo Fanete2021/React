@@ -68,56 +68,38 @@ namespace API.DAL.Repositories
             return await db.Movies.ToListAsync();
         }
 
-        private List<Movie> SearchByGenreAndActor(List<Movie> movies, int[] idGenres, int[] idActors)
+        public async Task<List<Movie>> SelectAsync(int[] idActors, int[] idGenres, string title, int limit, int page)
         {
-            var sortedMovies = new List<Movie>();
-            bool isIncluded;
+            var isActorsEmpty = idActors.Length == 0;
+            var isGenresEmpty = idGenres.Length == 0;
+            var movieActors = new List<int>();
+            var movieGenres = new List<int>();
 
-            foreach(var movie in movies)
+            if (!isActorsEmpty)
             {
-                isIncluded = true;
-
-                if (idGenres.Length > 0)
-                {
-                    var genres = GetGenresAsync(movie.Id).Result.Select(g => g.Id);
-                    foreach (var genre in idGenres)
-                    {
-                        if (!genres.Contains(genre))
-                        {
-                            isIncluded = false;
-                            break;
-                        }
-                    }
-                }
-
-                if (!isIncluded)
-                    continue;
-
-                if (idActors.Length > 0)
-                {
-                    var actors = GetActorsAsync(movie.Id).Result.Select(a => a.Id);
-                    foreach (var actor in idActors)
-                    {
-                        if (!actors.Contains(actor))
-                        {
-                            isIncluded = false;
-                            break;
-                        }
-                    }
-                }
-
-                if (isIncluded)
-                    sortedMovies.Add(movie);
+                movieActors = await db.MovieActor
+                   .Where(ma => idActors.Contains(ma.ActorId))
+                   .Select(ma => ma.MovieId)
+                   .ToListAsync();
             }
 
-            return sortedMovies;
-        }
+            if (!isGenresEmpty)
+            {
+                movieGenres = await db.MovieGenre
+                    .Where(mg => idGenres.Contains(mg.GenreId))
+                    .Select(ma => ma.MovieId)
+                    .ToListAsync();
+            }
 
-        public async Task<List<Movie>> SelectAsync(int[] idActors, int[] idGenres, string title)
-        {
-            var movies = await db.Movies.Where(movie => movie.Title.ToLower().Contains(title.ToLower())).ToListAsync();
+            var movies = await db.Movies
+                .Where(movie => movie.Title.ToLower().Contains(title.ToLower()))
+                .ToListAsync();
 
-            return SearchByGenreAndActor(movies, idGenres, idActors);
+            return movies.Where(m => (isActorsEmpty || movieActors.Contains(m.Id)) &&
+                                     (isGenresEmpty || movieGenres.Contains(m.Id)))
+                         .Skip(limit * (page - 1))
+                         .Take(limit)
+                         .ToList();
         }
 
         public async Task<int> GetCountAsync()

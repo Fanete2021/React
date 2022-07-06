@@ -49,13 +49,13 @@ namespace API.Controllers
             if (title == null)
                 title = "";
 
-            var response = await _movieService.GetMoviesAsync(idActors, idGenres, title);
+            var response = await _movieService.GetMoviesAsync(idActors, idGenres, title, limit, page);
 
             if (response.StatusCode == Domain.Enum.StatusCode.OK)
             {
                 Response.Headers["x-total-count"] = response.Data.Count().ToString();
 
-                return this.Ok(response.Data.Skip(limit * (page - 1)).Take(limit));
+                return this.Ok(response.Data);
             }
 
             return this.NotFound(response.DescriptionError);

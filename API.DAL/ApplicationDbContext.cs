@@ -23,7 +23,7 @@ namespace API.DAL
                     new Genre { Id = 2, Title = "Comedy" },
                     new Genre { Id = 3, Title = "Musical" },
                     new Genre { Id = 4, Title = "Romance" },
-                    new Genre { Id = 5, Title = "Comedy" },
+                    new Genre { Id = 5, Title = "Adventure" },
                     new Genre { Id = 6, Title = "Crime" },
                     new Genre { Id = 7, Title = "Action" },
                     new Genre { Id = 8, Title = "Thriller" },
