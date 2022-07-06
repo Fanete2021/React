@@ -11,12 +11,10 @@
 *	dotnet run
 #### do not disable cmd.
 
-#### 3) Run the sql script in the project folder. When the connection window appears, copy the server name
-Click connect, then run the script
+#### 3) Open SSMS. In the window that opens, copy the value from the "server name" field
+#### Open the appsettings.json file in the API directory. In the DefaultConnection field, paste the copied value before "Database="
 
-#### 4) Open the appsettings.json file in the API directory. In the DefaultConnection field, paste the copied value before "Database="
-
-#### 5) Open the movies directory, run cmd and enter:
+#### 4) Open the movies directory, run cmd and enter:
 *	npm install
 *	npm start
 #### do not disable cmd.
