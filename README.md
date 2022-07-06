@@ -20,4 +20,4 @@ Click connect, then run the script
 #### 5.Open the movies directory, run cmd and enter:
 *	npm install
 *	npm start
-do not disable cmd.
+#### do not disable cmd.
